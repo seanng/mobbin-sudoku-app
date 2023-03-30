@@ -1,8 +1,10 @@
 import { App } from '@/components/App';
+import { supabase } from '@/lib/supabase';
 import type { Puzzle } from '@/types/data';
 
 const getPuzzles = async (): Promise<Puzzle[]> => {
-  return [{}];
+  const { data } = await supabase.from('sudoku_puzzles').select();
+  return data as Puzzle[];
 };
 
 const Page = async () => {
