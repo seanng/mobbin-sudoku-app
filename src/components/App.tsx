@@ -10,16 +10,16 @@ import { checkSolution } from '@/utils/helpers';
 import { SudokuGrid } from './SudokuGrid';
 
 interface AppProps {
-  puzzle: Grid;
+  initialGrid: Grid;
 }
 
-const App = ({ puzzle }: AppProps) => {
-  const [grid, setGrid] = useState<Grid>(cloneDeep(puzzle));
+const App = ({ initialGrid }: AppProps) => {
+  const [grid, setGrid] = useState<Grid>(cloneDeep(initialGrid));
 
   const handleCheckSolution = () => {
     try {
       console.log('Checking solution...');
-      checkSolution(grid);
+      checkSolution(initialGrid, grid);
       // Throw confetti!
     } catch (e) {
       console.log('error: ', e);
@@ -28,16 +28,18 @@ const App = ({ puzzle }: AppProps) => {
 
   return (
     <>
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
-        <h1 className="mb-6 text-4xl font-semibold">Sudoku</h1>
+      <div className="flex min-h-screen flex-col items-center justify-center">
+        <h1 className="mb-6 font-sans text-5xl font-semibold text-white">
+          Sudoku
+        </h1>
         <SudokuGrid
-          initialGrid={puzzle}
+          initialGrid={initialGrid}
           currentGrid={grid}
           setCurrentGrid={setGrid}
         />
         <div className="mt-6">
           <button
-            className="rounded-md bg-blue-500 py-2 px-4 font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            className="rounded-sm bg-emerald-400 px-6 py-2 text-center font-mono tracking-wide text-black md:py-3 md:px-9 md:text-lg"
             onClick={handleCheckSolution}
           >
             Check Solution

@@ -21,7 +21,7 @@ const Page = async () => {
   const puzzleData = getRandomPuzzleData(data);
   const formattedPuzzle = stringToSudokuGrid(puzzleData);
 
-  return <App puzzle={formattedPuzzle} />;
+  return <App initialGrid={formattedPuzzle} />;
 };
 
 export default Page;

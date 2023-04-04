@@ -35,14 +35,18 @@ const isSafe = (grid: Grid, row: number, col: number, num: number): boolean => {
   return true;
 };
 
-export const checkSolution = (grid: Grid) => {
+export const checkSolution = (initialGrid: Grid, solution: Grid) => {
   for (let i = 0; i < 9; i += 1) {
     for (let j = 0; j < 9; j += 1) {
-      const cell = grid[i]?.[j] as number;
-      if (cell > 9 || cell < 0) throw new Error('Grid contains invalid value');
-      if (cell === 0) throw new Error('Grid is not complete');
-      if (!isSafe(grid, i, j, cell))
-        throw new Error(`Cell on Row ${i} Column ${j} is not valid`);
+      // Do not check (and throw errors) for cells in initial grid.
+      if (initialGrid[i]?.[j] === 0) {
+        const cell = solution[i]?.[j] as number;
+        if (cell > 9 || cell < 0)
+          throw new Error('Grid contains invalid value');
+        if (cell === 0) throw new Error('Grid is not complete');
+        if (!isSafe(solution, i, j, cell))
+          throw new Error(`Cell on Row ${i} Column ${j} is not valid`);
+      }
     }
   }
 };

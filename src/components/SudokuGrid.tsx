@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 interface Props {
   initialGrid: number[][];
   currentGrid: number[][];
@@ -6,6 +8,7 @@ interface Props {
 
 const SudokuGrid = ({ initialGrid, currentGrid, setCurrentGrid }: Props) => {
   const handleChange = (row: number, col: number, value: string) => {
+    if (value.length > 1) return;
     const newGrid = [...currentGrid];
     (newGrid[row] as number[])[col] = parseInt(value, 10) || 0;
     setCurrentGrid(newGrid);
@@ -29,20 +32,17 @@ const SudokuGrid = ({ initialGrid, currentGrid, setCurrentGrid }: Props) => {
                   handleChange(rowIndex, colIndex, e.target.value)
                 }
                 readOnly={isReadOnly}
-                className={`
-                  h-12 w-12 text-center
-                  ${isReadOnly ? 'bg-gray-200' : ''}
-                  ${
-                    rowIndex % 3 === 0 && rowIndex !== 0
-                      ? 'border-t-2 border-black'
-                      : ''
-                  }
-                  ${
-                    colIndex % 3 === 0 && colIndex !== 0
-                      ? 'border-l-2 border-black'
-                      : ''
-                  }
-                `}
+                className={clsx(
+                  'h-12 w-12 pl-3 text-center font-mono focus:outline-none md:h-20 md:w-20 md:pl-4 md:text-lg',
+                  isReadOnly && 'cursor-default bg-slate-400',
+                  // Borders to separate 3x3 grids
+                  rowIndex % 3 === 0 &&
+                    rowIndex !== 0 &&
+                    'border-t-2 border-black',
+                  colIndex % 3 === 0 &&
+                    colIndex !== 0 &&
+                    'border-l-2 border-black'
+                )}
               />
             );
           })
