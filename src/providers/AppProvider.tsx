@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 import { createContext, useContext } from 'react';
 
-import type { Puzzle } from '@/types/data';
+// import type { Puzzle } from '@/types/data';
 
 interface IAppContext {}
 
 interface AppProviderProps {
   children: ReactNode;
-  data: { puzzles: Puzzle[] };
+  // data: { puzzles: Puzzle[] };
 }
 
 export const AppContext = createContext<IAppContext>({});

@@ -1,16 +1,27 @@
 import { App } from '@/components/App';
 import { supabase } from '@/lib/supabase';
-import type { Puzzle } from '@/types/data';
+import type { Data, DataItem } from '@/types/data';
+import { stringToSudokuGrid } from '@/utils/helpers';
 
-const getPuzzles = async (): Promise<Puzzle[]> => {
+const fallbackPuzzle =
+  '52...6.........7.13...........4..8..6......5...........418.........3..2...87.....';
+
+const getData = async (): Promise<Data> => {
   const { data } = await supabase.from('sudoku_puzzles').select();
-  return data as Puzzle[];
+  return data as Data;
+};
+
+const getRandomPuzzleData = (data: Data): string => {
+  const randomIdx = Math.floor(Math.random() * data.length);
+  return (data[randomIdx] as DataItem)?.puzzle ?? fallbackPuzzle;
 };
 
 const Page = async () => {
-  const puzzles = await getPuzzles();
+  const data = await getData();
+  const puzzleData = getRandomPuzzleData(data);
+  const formattedPuzzle = stringToSudokuGrid(puzzleData);
 
-  return <App data={{ puzzles }} />;
+  return <App puzzle={formattedPuzzle} />;
 };
 
 export default Page;
