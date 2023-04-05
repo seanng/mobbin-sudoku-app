@@ -1,7 +1,7 @@
-# Doctorama
+# Sudoku
 
-This is a web application for Necktie built using Next.js, TypeScript, Framer Motion and Tailwind CSS.
-The site is up and running here: https://doctorama-app.vercel.app/
+This is a Sudoku application built using Next.js, TypeScript and Tailwind CSS.
+The site is up and running here: https://mobbin-sudoku-app.vercel.app/
 
 ## Installation
 
@@ -21,7 +21,6 @@ This application was built using the following packages:
 
 - Next.js
 - Tailwind CSS
-- Framer Motion
 
 I shall go into more detail regarding these key packages below:
 
@@ -73,53 +72,4 @@ Tailwind CSS is a utility-first CSS framework that makes it easy to quickly add 
 - Requires setup and has a bit of a learning curve.
 - Lack of "separation of concerns" since styles are embedded in the markup (rather than in a separate file).
 - No built-in support for several dynamic components like modals, selectors, and popovers.
-
-### Framer Motion
-
-Framer Motion is a motion library for React that makes it easy to power components with animations and transitions without touching the stylesheet or writing any scripts.
-
-#### Benefits
-
-- Easy to create basic transitions without much code.
-- Comes with sensible defaults, like timings and effects for different transition types.
-- Much like Tailwind CSS, styles can be added and edited quickly, directly in the React Component.
-- It is declarative and intuitive. Developers don't need to interact with the DOM via selectors, refs or other kinds of error-prone wiring.
-
-#### Drawbacks
-
-- Opinionated and not as low-level / flexible as CSS transitions.
-- Documentation and API is quite limited. Some of the more complex animations still require imperative programming.
-- Lack of "separation of concerns" since styles are embedded in the markup (rather than in a separate file).
-- Bundle size for the `motion` API can be big (29kb). That said, [there are ways to reduce the bundle size](https://www.framer.com/motion/guide-reduce-bundle-size/).
-
-## Potential Improvements
-
-If given more time, I would like to add the following types of tests, features and enhancements to the application:
-
-### Testing Frameworks
-
-- *Jest*: Test runner, provides various helper methods that help with unit testing. Used to test both client and server-side code.
-- *React Testing Library*: Tests the behaviors of React Components independent of and/or in relation to user interactions. Good for unit and integration tests.
-- *Cypress*: More operationally expensive than the previous 2 libraries, but much more comprehensive. Good for E2E testing and providing visual feedback/replays. Can be omitted from pre-commit hooks.
-- *Storybook*: Not a test framework, but I would incorporate Storybook to sandbox components and manually test interactions.
-
-### Enhancements
-
-- Better error handling feedback.
-- Incorporate Sentry for production monitoring and error reporting.
-- Incorporate SEO.
-- Optimize Google Lighthouse score.
-- Incorporate Analytics and Pixel (using Segment or GTM).
-- Better theme and typography.
-- Separate style guide (UI package?) and Storybook.
-
-### Features
-
-- Add a footer and navigation menu.
-- Multiple language selection with I18n (probably an MVP feature for the HK market).
-- More detailed doctor profiles.
-- Authentication for user details and booking history.
-- Email confirmation after booking.
-- More micro-animations and transitions!
-- Maybe a map and review feature (since this is a doctor platform).
 
