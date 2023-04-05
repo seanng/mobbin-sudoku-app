@@ -9,8 +9,6 @@ module.exports = {
       },
       fontFamily: {
         mono: 'var(--font-mono)',
-        display: 'var(--font-display)',
-        sans: 'var(--font-sans)',
       },
       backgroundColor: {
         secondary: '#424b54',

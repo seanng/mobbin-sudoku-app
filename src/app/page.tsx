@@ -1,7 +1,7 @@
 import { App } from '@/components/App';
 import { supabase } from '@/lib/supabase';
 import type { Data, DataItem } from '@/types/data';
-import { sudokuSolver } from '@/utils/helpers';
+import { solve } from '@/utils/helpers';
 
 // This is a fallback puzzle in case other puzzles are not solvable or the API is down
 const FALLBACK_PUZZLE =
@@ -30,12 +30,12 @@ const getRandomPuzzle = (data: Data): string => {
 const Page = async () => {
   const data = await fetchData();
   let puzzle = getRandomPuzzle(data);
-  let solvedPuzzle = sudokuSolver(puzzle);
+  let solvedPuzzle = solve(puzzle);
 
   // handle the edge case where the puzzle is not solvable
   while (!solvedPuzzle) {
     puzzle = getRandomPuzzle(data);
-    solvedPuzzle = sudokuSolver(puzzle);
+    solvedPuzzle = solve(puzzle);
   }
 
   return <App puzzle={puzzle} solution={solvedPuzzle} />;

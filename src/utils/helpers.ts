@@ -1,7 +1,7 @@
 /**
- * Gets the coordinates of a cell in a Sudoku puzzle string
+ * Gets the coordinates of a cell from a string representation of a Sudoku puzzle
  * @param {number} index - The index of the puzzle string
- * @returns {[number, number]} - The row and col index of the cell
+ * @returns {[number, number]} - The row index and col index of the cell (base 0)
  */
 const getCellCoordinates = (index: number): [number, number] => {
   const row = Math.floor(index / 9);
@@ -43,18 +43,18 @@ const isValid = (input: string, index: number, num: string): boolean => {
  * @param {number} index - The index of the position to check
  * @returns {string | null} - The solved Sudoku puzzle string or null if no solution exists
  */
-export const sudokuSolver = (input: string, index = 0): string | null => {
+export const solve = (input: string, index = 0): string | null => {
   if (index >= input.length) {
     return input;
   }
 
   if (input[index] !== '.') {
-    return sudokuSolver(input, index + 1);
+    return solve(input, index + 1);
   }
 
   for (let num = 1; num <= 9; num += 1) {
     if (isValid(input, index, String(num))) {
-      const solution = sudokuSolver(
+      const solution = solve(
         input.slice(0, index) + num + input.slice(index + 1),
         index + 1
       );
@@ -68,7 +68,7 @@ export const sudokuSolver = (input: string, index = 0): string | null => {
  * Checks the grid against the solved puzzle to see if the solution is correct
  * @param {string} grid - The Sudoku puzzle string
  * @param {string} solution - The solved Sudoku puzzle string
- * @throws {Error} - If the grid and solution are not the same length, or the solution is incorrect
+ * @throws {Error} - If the grid is not filled out or the solution is incorrect
  * @returns {void}
  */
 export const checkSolution = (grid: string, solution: string): void => {
@@ -76,21 +76,18 @@ export const checkSolution = (grid: string, solution: string): void => {
     throw new Error('The grid and solution must be the same length');
   }
 
+  // Prioritize showing empty cells over incorrect cells
   let currentError = '';
 
   for (let i = 0; i < grid.length; i += 1) {
     const [row, col] = getCellCoordinates(i);
     if (grid[i] === '.') {
-      currentError = `The grid contains empty cells. Fill out row ${
-        row + 1
-      }, column ${col + 1}.`;
+      currentError = `Row ${row + 1} Column ${col + 1} is empty.`;
       break;
     }
 
     if (grid[i] !== solution[i] && currentError === '') {
-      currentError = `The solution is incorrect at row ${row + 1}, column ${
-        col + 1
-      }.`;
+      currentError = `Row ${row + 1} Column ${col + 1} is incorrect.`;
     }
   }
 

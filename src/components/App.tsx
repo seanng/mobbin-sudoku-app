@@ -13,7 +13,7 @@ interface AppProps {
 }
 
 const App = ({ puzzle, solution }: AppProps) => {
-  const [grid, setGrid] = useState<string>(puzzle);
+  const [grid, setGrid] = useState<string>(solution);
   const [isChecking, setIsChecking] = useState<boolean>(false);
 
   const handleSubmit = () => {
@@ -21,12 +21,13 @@ const App = ({ puzzle, solution }: AppProps) => {
       setIsChecking(true);
       checkSolution(grid, solution);
       animateConfetti();
-      toast.success('Congratulations! You solved the puzzle! 🎉');
+      toast(
+        'Congratulations! You solved the puzzle! 🎉 \n\nRefresh the page to play again.'
+      );
     } catch (e: unknown) {
       if (e instanceof Error) {
         toast.error(e.message);
       }
-    } finally {
       setIsChecking(false);
     }
   };
@@ -34,9 +35,7 @@ const App = ({ puzzle, solution }: AppProps) => {
   return (
     <>
       <div className="flex min-h-screen flex-col items-center justify-center">
-        <h1 className="mb-6 font-sans text-5xl font-semibold text-white">
-          Sudoku
-        </h1>
+        <h1 className="mb-6 font-mono text-5xl text-white">Sudoku!</h1>
         <SudokuGrid initial={puzzle} grid={grid} setGrid={setGrid} />
         <div className="mt-6">
           <button
