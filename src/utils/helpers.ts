@@ -1,52 +1,98 @@
-import type { Grid } from '@/types/data';
-
-export const stringToSudokuGrid = (input: string) => {
-  const gridSize = 9;
-
-  return Array.from({ length: gridSize }, (_, row) =>
-    Array.from({ length: gridSize }, (__, col): number => {
-      const index = row * gridSize + col;
-      return input[index] === '.' ? 0 : parseInt(input[index] as string, 10);
-    })
-  );
+/**
+ * Gets the coordinates of a cell in a Sudoku puzzle string
+ * @param {number} index - The index of the puzzle string
+ * @returns {[number, number]} - The row and col index of the cell
+ */
+const getCellCoordinates = (index: number): [number, number] => {
+  const row = Math.floor(index / 9);
+  const col = index % 9;
+  return [row, col];
 };
 
-const isSafe = (grid: Grid, row: number, col: number, num: number): boolean => {
-  const n = grid.length;
+/**
+ * Checks whether a given number (num) can be placed in a specific position (index) of the Sudoku puzzle string (input)
+ * @param {string} input - The Sudoku puzzle string
+ * @param {number} index - The index of the position to check
+ * @param {string} num - The number to check
+ * @returns {boolean} - Whether the number can be placed in the position
+ */
+const isValid = (input: string, index: number, num: string): boolean => {
+  const [row, col] = getCellCoordinates(index);
+  const boxRow = 3 * Math.floor(row / 3);
+  const boxCol = 3 * Math.floor(col / 3);
 
-  // Check if the number is in the same row or column
-  for (let i = 0; i < n; i += 1) {
-    if (grid[row]?.[i] === num || grid[i]?.[col] === num) {
+  for (let i = 0; i < 9; i += 1) {
+    const rowIndex = 9 * row + i;
+    const colIndex = 9 * i + col;
+    const boxIndex = 9 * (boxRow + Math.floor(i / 3)) + (boxCol + (i % 3));
+
+    if (
+      input[rowIndex] === num ||
+      input[colIndex] === num ||
+      input[boxIndex] === num
+    ) {
       return false;
     }
   }
-
-  // Check if the number is in the same 3x3 subgrid
-  const startRow = row - (row % 3);
-  const startCol = col - (col % 3);
-  for (let i = 0; i < 3; i += 1) {
-    for (let j = 0; j < 3; j += 1) {
-      if (grid[i + startRow]?.[j + startCol] === num) {
-        return false;
-      }
-    }
-  }
-
   return true;
 };
 
-export const checkSolution = (initialGrid: Grid, solution: Grid) => {
-  for (let i = 0; i < 9; i += 1) {
-    for (let j = 0; j < 9; j += 1) {
-      // Do not check (and throw errors) for cells in initial grid.
-      if (initialGrid[i]?.[j] === 0) {
-        const cell = solution[i]?.[j] as number;
-        if (cell > 9 || cell < 0)
-          throw new Error('Grid contains invalid value');
-        if (cell === 0) throw new Error('Grid is not complete');
-        if (!isSafe(solution, i, j, cell))
-          throw new Error(`Cell on Row ${i} Column ${j} is not valid`);
-      }
+/**
+ * Solves a Sudoku puzzle string (input) using backtracking
+ * @param {string} input - The Sudoku puzzle string
+ * @param {number} index - The index of the position to check
+ * @returns {string | null} - The solved Sudoku puzzle string or null if no solution exists
+ */
+export const sudokuSolver = (input: string, index = 0): string | null => {
+  if (index >= input.length) {
+    return input;
+  }
+
+  if (input[index] !== '.') {
+    return sudokuSolver(input, index + 1);
+  }
+
+  for (let num = 1; num <= 9; num += 1) {
+    if (isValid(input, index, String(num))) {
+      const solution = sudokuSolver(
+        input.slice(0, index) + num + input.slice(index + 1),
+        index + 1
+      );
+      if (solution) return solution;
     }
   }
+  return null;
+};
+
+/**
+ * Checks the grid against the solved puzzle to see if the solution is correct
+ * @param {string} grid - The Sudoku puzzle string
+ * @param {string} solution - The solved Sudoku puzzle string
+ * @throws {Error} - If the grid and solution are not the same length, or the solution is incorrect
+ * @returns {void}
+ */
+export const checkSolution = (grid: string, solution: string): void => {
+  if (grid.length !== solution.length) {
+    throw new Error('The grid and solution must be the same length');
+  }
+
+  let currentError = '';
+
+  for (let i = 0; i < grid.length; i += 1) {
+    const [row, col] = getCellCoordinates(i);
+    if (grid[i] === '.') {
+      currentError = `The grid contains empty cells. Fill out row ${
+        row + 1
+      }, column ${col + 1}.`;
+      break;
+    }
+
+    if (grid[i] !== solution[i] && currentError === '') {
+      currentError = `The solution is incorrect at row ${row + 1}, column ${
+        col + 1
+      }.`;
+    }
+  }
+
+  if (currentError) throw new Error(currentError);
 };

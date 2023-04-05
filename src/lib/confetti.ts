@@ -7,6 +7,9 @@ const randomInRange = (min: number, max: number) =>
 
 const confettiDuration = 3 * 1000;
 
+/**
+ * Animates confetti on the page
+ */
 const animateConfetti = () => {
   if (!window || typeof window === 'undefined')
     throw new Error('Window object not detected.');

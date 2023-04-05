@@ -1,28 +1,33 @@
 'use client';
 
-import cloneDeep from 'lodash.clonedeep';
 import { useState } from 'react';
-import { Toaster } from 'react-hot-toast';
+import { toast, Toaster } from 'react-hot-toast';
 
-import type { Grid } from '@/types/data';
+import { SudokuGrid } from '@/components/SudokuGrid';
+import { animateConfetti } from '@/lib/confetti';
 import { checkSolution } from '@/utils/helpers';
 
-import { SudokuGrid } from './SudokuGrid';
-
 interface AppProps {
-  initialGrid: Grid;
+  puzzle: string;
+  solution: string;
 }
 
-const App = ({ initialGrid }: AppProps) => {
-  const [grid, setGrid] = useState<Grid>(cloneDeep(initialGrid));
+const App = ({ puzzle, solution }: AppProps) => {
+  const [grid, setGrid] = useState<string>(puzzle);
+  const [isChecking, setIsChecking] = useState<boolean>(false);
 
-  const handleCheckSolution = () => {
+  const handleSubmit = () => {
     try {
-      console.log('Checking solution...');
-      checkSolution(initialGrid, grid);
-      // Throw confetti!
-    } catch (e) {
-      console.log('error: ', e);
+      setIsChecking(true);
+      checkSolution(grid, solution);
+      animateConfetti();
+      toast.success('Congratulations! You solved the puzzle! 🎉');
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        toast.error(e.message);
+      }
+    } finally {
+      setIsChecking(false);
     }
   };
 
@@ -32,15 +37,12 @@ const App = ({ initialGrid }: AppProps) => {
         <h1 className="mb-6 font-sans text-5xl font-semibold text-white">
           Sudoku
         </h1>
-        <SudokuGrid
-          initialGrid={initialGrid}
-          currentGrid={grid}
-          setCurrentGrid={setGrid}
-        />
+        <SudokuGrid initial={puzzle} grid={grid} setGrid={setGrid} />
         <div className="mt-6">
           <button
-            className="rounded-sm bg-emerald-400 px-6 py-2 text-center font-mono tracking-wide text-black md:py-3 md:px-9 md:text-lg"
-            onClick={handleCheckSolution}
+            className="rounded-sm bg-emerald-400 px-6 py-2 text-center font-mono tracking-wide text-black disabled:bg-emerald-600 disabled:text-gray-600 md:py-3 md:px-9 md:text-lg"
+            disabled={isChecking}
+            onClick={handleSubmit}
           >
             Check Solution
           </button>

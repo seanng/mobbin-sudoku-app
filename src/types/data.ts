@@ -5,5 +5,3 @@ export interface DataItem {
 }
 
 export type Data = DataItem[];
-
-export type Grid = number[][];

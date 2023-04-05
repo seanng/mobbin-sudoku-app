@@ -1,52 +1,46 @@
 import clsx from 'clsx';
 
 interface Props {
-  initialGrid: number[][];
-  currentGrid: number[][];
-  setCurrentGrid: (newGrid: number[][]) => void;
+  initial: string;
+  grid: string;
+  setGrid: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SudokuGrid = ({ initialGrid, currentGrid, setCurrentGrid }: Props) => {
-  const handleChange = (row: number, col: number, value: string) => {
+const SudokuGrid = ({ initial, grid, setGrid }: Props) => {
+  const handleInputChange = (value: string, idx: number) => {
     if (value.length > 1) return;
-    const newGrid = [...currentGrid];
-    (newGrid[row] as number[])[col] = parseInt(value, 10) || 0;
-    setCurrentGrid(newGrid);
+    setGrid(
+      (prev: string) =>
+        prev.slice(0, idx) + (value || '.') + prev.slice(idx + 1)
+    );
   };
 
   return (
     <div className="flex items-center justify-center">
       <div className="grid grid-cols-9 gap-1">
-        {currentGrid.map((row, rowIndex) =>
-          row.map((cell, colIndex) => {
-            const isReadOnly =
-              (initialGrid[rowIndex] as number[])[colIndex] !== 0;
-            return (
-              <input
-                key={`${rowIndex}-${colIndex}`}
-                type="number"
-                min="1"
-                max="9"
-                value={cell === 0 ? '' : cell}
-                onChange={(e) =>
-                  handleChange(rowIndex, colIndex, e.target.value)
-                }
-                readOnly={isReadOnly}
-                className={clsx(
-                  'h-12 w-12 pl-3 text-center font-mono focus:outline-none md:h-20 md:w-20 md:pl-4 md:text-lg',
-                  isReadOnly && 'cursor-default bg-slate-400',
-                  // Borders to separate 3x3 grids
-                  rowIndex % 3 === 0 &&
-                    rowIndex !== 0 &&
-                    'border-t-2 border-black',
-                  colIndex % 3 === 0 &&
-                    colIndex !== 0 &&
-                    'border-l-2 border-black'
-                )}
-              />
-            );
-          })
-        )}
+        {grid.split('').map((value, idx) => {
+          const isReadOnly = initial[idx] !== '.';
+          return (
+            <input
+              key={idx}
+              type="number"
+              min="1"
+              max="9"
+              value={value === '.' ? '' : value}
+              onChange={(e) => handleInputChange(e.target.value, idx)}
+              readOnly={isReadOnly}
+              className={clsx(
+                'h-12 w-12 pl-3 text-center font-mono focus:outline-none md:h-20 md:w-20 md:pl-4 md:text-lg',
+                isReadOnly
+                  ? 'cursor-default bg-slate-400'
+                  : 'font-semibold text-sky-800',
+                // Borders to separate 3x3 grids
+                Math.floor(idx / 9) % 3 === 0 && 'border-t-2 border-slate-700',
+                idx % 3 === 0 && 'border-l-2 border-slate-700'
+              )}
+            />
+          );
+        })}
       </div>
     </div>
   );
