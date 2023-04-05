@@ -30,7 +30,7 @@ const SudokuGrid = ({ initial, grid, setGrid }: Props) => {
               onChange={(e) => handleInputChange(e.target.value, idx)}
               readOnly={isReadOnly}
               className={clsx(
-                'h-12 w-12 pl-3 text-center font-mono focus:outline-none md:h-20 md:w-20 md:pl-4 md:text-lg',
+                'h-9 w-9 pl-3 text-center font-mono text-sm focus:outline-none sm:h-12 sm:w-12 sm:text-base md:h-20 md:w-20 md:pl-4 md:text-lg',
                 isReadOnly
                   ? 'cursor-default bg-slate-400'
                   : 'font-semibold text-sky-800',
