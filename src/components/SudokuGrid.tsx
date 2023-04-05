@@ -16,7 +16,7 @@ const SudokuGrid = ({ initial, grid, setGrid }: Props) => {
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center bg-slate-700">
       <div className="grid grid-cols-9 gap-1">
         {grid.split('').map((value, idx) => {
           const isReadOnly = initial[idx] !== '.';
@@ -35,8 +35,10 @@ const SudokuGrid = ({ initial, grid, setGrid }: Props) => {
                   ? 'cursor-default bg-slate-400'
                   : 'font-semibold text-sky-800',
                 // Borders to separate 3x3 grids
-                Math.floor(idx / 9) % 3 === 0 && 'border-t-2 border-slate-700',
-                idx % 3 === 0 && 'border-l-2 border-slate-700'
+                Math.floor(idx / 9) % 3 === 0 && 'border-t border-slate-700',
+                Math.floor(idx / 9) % 3 === 2 && 'border-b border-slate-700',
+                idx % 3 === 0 && 'border-l border-slate-700',
+                idx % 3 === 2 && 'border-r border-slate-700'
               )}
             />
           );
