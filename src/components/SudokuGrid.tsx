@@ -16,7 +16,7 @@ const SudokuGrid = ({ initial, grid, setGrid }: Props) => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-slate-700">
+    <div className="flex items-center justify-center bg-slate-700 p-1">
       <div className="grid grid-cols-9 gap-1">
         {grid.split('').map((value, idx) => {
           const isReadOnly = initial[idx] !== '.';
