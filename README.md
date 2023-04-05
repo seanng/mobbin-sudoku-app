@@ -22,54 +22,20 @@ This application was built using the following packages:
 - Next.js
 - Tailwind CSS
 
-I shall go into more detail regarding these key packages below:
+## Potential Improvements
 
-### Next.js
+If given more time, I would like to add the following features and enhancements to the application:
 
-Next.js is a React framework that enables you to create full-stack web applications with Rust-based JS tooling. It has, in my opinion, excellent developer experience and build optimizations under the hood. It also works seamlessly with Vercel.
+### Features
+- Add a timer!
+- Add authentication and leaderboard (timed sudoku!)
+- Highlight the cell if it contains an invalid input, on input change.
+- Add animations and transitions
 
-#### Benefits
-
-- Not much set up needed, as toolings are already set in place.
-- Built-in routing: Files are placed in the `pages` or `app` folder and the routes follow their names.
-- Server-side rendering: Next.js does this out of the box. SSR optimizes the initial page load time for dynamic web apps.
-- Automatic code splitting, reducing the amount of code that needs to be loaded on each page.
-- Excellent TypeScript support and overall developer experience.
-- API routes support, meaning I could proxy API calls to hide sensitive keys from the browser.
-- First class support for React Server Components, which leads to smaller client-side bundle sizes and better performance.
-- Has a marketplace of super helpful plugins (like Next-SEO and Next-Sitemap)
-
-#### Drawbacks
-
-- Next.js adds additional complexity to the project, which can make it harder to debug issues.
-- Opinionated when it comes to routing, and you have to specify whether the component is server-side or client-side.
-- Framework adds additional boilerplate code to your project, which can increase the size of the application.
-- Locks you in to use some of their plugins such as next/image and next/link.
-
-
-### Tailwind CSS
-
-Tailwind CSS is a utility-first CSS framework that makes it easy to quickly add and edit styles directly inside the React Component as opposed to a separate file or object/method, through the use of utility classes. It is highly maintainable and lean, as unused styles are omitted from the bundle. It also works well with React as its seeemingly cluttered classes can be extracted into React Components.
-
-#### Benefits
-
-- Tailwind automatically removes all unused CSS when building, which leads to a tiny CSS production bundle.
-- Comes with out of the box build scripts, PostCSS tooling, 
-- Comes with out of the box palettes, sizing scales, media breakpoints, etc.
-- Highly customizable, due to its styles being so low-level.
-- Amazing documentation and community.
-- Very easy to add and modify styles, without using an additional file or object/method (like other CSS-in-JS packages).
-- API supports a lot of modified states like hover, groups, focus, and so on.
-- Tailwind lets you build responsive designs right in your HTML rather than wrestle with complex media queries.
-- Has a super helpful VS code extension, making it easy to write due to suggestions and auto-completion.
-- Has a marketplace of super helpful plugins (like line-clamp and typography plugins)
-
-#### Drawbacks
-
-- Can lead to very messy code if left unchecked, cluttering the markup composition.
-- Very limited support for CSS animations and transitions.
-- Elements can be unclear due to lack of element naming, though this is fixable with structurally organized & clean code.
-- Requires setup and has a bit of a learning curve.
-- Lack of "separation of concerns" since styles are embedded in the markup (rather than in a separate file).
-- No built-in support for several dynamic components like modals, selectors, and popovers.
-
+### Enhancements
+- Write tests, specifically to test the helper functions and components. I would use Jest and React Testing Library for these.
+- Make the website more responsive.
+- Better typings.
+- Optimize load times (Google Lighthouse score)
+- Incorporate analytics (GTM & Segment)
+- Incorporate Sentry for production monitoring and error reporting.
