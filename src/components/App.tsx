@@ -13,7 +13,7 @@ interface AppProps {
 }
 
 const App = ({ puzzle, solution }: AppProps) => {
-  const [grid, setGrid] = useState<string>(solution);
+  const [grid, setGrid] = useState<string>(puzzle);
   const [isChecking, setIsChecking] = useState<boolean>(false);
 
   const handleSubmit = () => {
