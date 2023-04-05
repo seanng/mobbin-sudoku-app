@@ -8,7 +8,7 @@ interface Props {
 
 const SudokuGrid = ({ initial, grid, setGrid }: Props) => {
   const handleInputChange = (value: string, idx: number) => {
-    if (value.length > 1) return;
+    if (value === '0' || value.length > 1) return;
     setGrid(
       (prev: string) =>
         prev.slice(0, idx) + (value || '.') + prev.slice(idx + 1)
